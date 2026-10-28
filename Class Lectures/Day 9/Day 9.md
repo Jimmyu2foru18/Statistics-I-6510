@@ -1,6 +1,6 @@
-# Statistics I, Day 9: Z-Intervals, Z-Tests, Hypothesis Test Outcomes, T-Distributions, and Matched Pairs
+# Statistics I, Day 9: Z-Intervals, Z-Tests, Hypothesis Test Outcomes, T-Distributions, Matched Pairs, and Two-Sample t Procedures
 
-Welcome to Day 9! Today we work through two problems, then talk about what can go wrong in a hypothesis test, and finally switch gears to t-distributions and matched pairs. Let us jump right in.
+Welcome to Day 9! Today we work through two problems, then talk about what can go wrong in a hypothesis test, and finally switch gears to t-distributions, matched pairs, and two-sample t procedures. Let us jump right in.
 
 ---
 
@@ -17,13 +17,13 @@ So we have:
 
 Before we build a confidence interval, we need to make sure the conditions are actually met. Here is what we check:
 
-**Condition 1 : Random sample:** Is our sample randomly selected? Yes, it is.
+**Condition 1 - Random sample:** Is our sample randomly selected? Yes, it is.
 
-**Condition 2 : Normality:** Our sample size is n = 40, which is greater than 30. That means the Central Limit Theorem applies, so the sampling distribution is approximately normal. Check.
+**Condition 2 - Normality:** Our sample size is n = 40, which is greater than 30. That means the Central Limit Theorem applies, so the sampling distribution is approximately normal. Check.
 
-**Condition 3 : Independence:** We need our sample of 40 bags to be less than 10 percent of all the potato chip bags out there. That is a safe assumption. Check.
+**Condition 3 - Independence:** We need our sample of 40 bags to be less than 10 percent of all the potato chip bags out there. That is a safe assumption. Check.
 
-**Condition 4 : Known sigma:** We know σ = 1.4. Check.
+**Condition 4 - Known sigma:** We know σ = 1.4. Check.
 
 All four conditions are satisfied, so we are good to go with a Z-interval.
 
@@ -75,7 +75,7 @@ We already have 40 bags, so we need 753 − 40 = 713 more bags. That is a lot of
 
 ---
 
-## Part 2: Hypothesis Test : Are the Bags Underfilled?
+## Part 2: Hypothesis Test — Are the Bags Underfilled?
 
 Now, suppose the manufacturer advertises 12 oz per bag. We want to test at α = 0.05 whether there is enough evidence to say the mean weight is actually lower than advertised.
 
@@ -218,37 +218,69 @@ The MeasureMind 3D MultiSensor metrology software is used by various companies t
 
 We want to perform a test at the α = 0.05 significance level of:
 
-H₀: μ = 0
-Hₐ: μ ≠ 0
+H₀: μ_d = 0
+Hₐ: μ_d ≠ 0
 
-where μ is the actual mean difference for the entire population of parts.
+where μ_d is the actual mean difference for the entire population of parts.
 
 The histogram of the differences is reasonably symmetric with no outliers, so we can comfortably use the t procedures.
 
-**Matched pairs t test statistic:**
+### Step-by-Step Solution
 
-t = (x̄_d − μ₀) / (s_d / √n)
+**Step 1: State the hypotheses**
 
-where:
-- x̄_d is the mean of the differences
-- μ₀ is the hypothesized mean difference, 0 here
-- s_d is the standard deviation of the differences
-- n is the number of pairs
-- s_d / √n is the standard error of the mean difference
+H₀: μ_d = 0
+Hₐ: μ_d ≠ 0
 
-**Degrees of freedom:**
+This is a two-tailed test.
 
-df = n − 1
+**Step 2: Check conditions**
 
-Here n = 51 pairs, so df = 51 − 1 = 50.
+- The data are paired (same 51 parts measured twice).
+- The histogram of differences is reasonably symmetric with no outliers.
+- The pairs are independent.
 
-### Matched pairs t confidence interval
+Conditions are met.
 
-**Formula:**
+**Step 3: Calculate sample statistics for the differences**
 
-CI for μ_d = x̄_d ± t* · (s_d / √n)
+The 51 differences (with option minus without option) are:
+12, 8, 15, 10, 14, 9, 13, 11, 16, 12, 10, 14, 13, 9, 12, 15, 11, 13, 14, 10,
+12, 11, 15, 13, 14, 11, 12, 14, 13, 10, 11, 14, 12, 13, 15, 11, 12, 14, 13, 10,
+12, 14, 13, 11, 12, 15, 13, 12, 14, 11, 13
 
-where t* is the critical t-value for df = n − 1 and the desired confidence level.
+n = 51 pairs
+
+Mean of differences:
+x̄_d = Σdᵢ / n = 631 / 51 ≈ 12.3725
+
+Standard deviation of differences:
+s_d = √(Σ(dᵢ − x̄_d)² / (n − 1)) ≈ 1.7996
+
+**Step 4: Calculate the standard error**
+
+SE = s_d / √n = 1.7996 / √51 = 1.7996 / 7.1414 ≈ 0.2520
+
+**Step 5: Calculate the t test statistic**
+
+t = (x̄_d − μ₀) / SE = (12.3725 − 0) / 0.2520 ≈ 49.0995
+
+**Step 6: Determine degrees of freedom**
+
+df = n − 1 = 51 − 1 = 50
+
+**Step 7: Find the p-value**
+
+For a two-tailed test with df = 50:
+p-value = 2 × P(t > 49.0995) ≈ 0.0000
+
+**Step 8: Make a decision**
+
+At α = 0.05: p-value ≈ 0.0000 < 0.05, so reject H₀.
+
+**Step 9: Conclusion**
+
+There is strong evidence at the 5% significance level that unchecking the software option changes measurement time. The mean difference is approximately 12.37 seconds, indicating the option has a measurable effect on measurement time.
 
 ---
 
@@ -372,75 +404,19 @@ There is sufficient evidence at the 5% significance level to conclude that the d
 
 ---
 
-## Matched Pairs t Procedures — Step-by-Step Example
-
-### Example: MeasureMind 3D MultiSensor software (continued)
-
-GE Healthcare measured 51 parts using the software both with and without the option checked. The differences (with option minus without option) in measurement time were recorded. We want to test at α = 0.05 whether the mean difference is different from 0.
-
-H₀: μ_d = 0 (the option makes no difference)
-Hₐ: μ_d ≠ 0 (the option makes a difference)
-
-This is a two-tailed test.
-
-### Step-by-Step Solution
-
-**Step 1: State the hypotheses**
-
-H₀: μ_d = 0
-Hₐ: μ_d ≠ 0
-
-**Step 2: Check conditions**
-
-- The data are paired (same 51 parts measured twice).
-- The histogram of differences is reasonably symmetric with no outliers.
-- The pairs are independent.
-
-Conditions are met.
-
-**Step 3: Calculate sample statistics for the differences**
-
-The 51 differences (with option minus without option) are:
-12, 8, 15, 10, 14, 9, 13, 11, 16, 12, 10, 14, 13, 9, 12, 15, 11, 13, 14, 10,
-12, 11, 15, 13, 14, 11, 12, 14, 13, 10, 11, 14, 12, 13, 15, 11, 12, 14, 13, 10,
-12, 14, 13, 11, 12, 15, 13, 12, 14, 11, 13
-
-n = 51 pairs
-
-Mean of differences:
-x̄_d = Σdᵢ / n = 631 / 51 ≈ 12.3725
-
-Standard deviation of differences:
-s_d = √(Σ(dᵢ − x̄_d)² / (n − 1)) ≈ 1.7996
-
-**Step 4: Calculate the standard error**
-
-SE = s_d / √n = 1.7996 / √51 = 1.7996 / 7.1414 ≈ 0.2520
-
-**Step 5: Calculate the t test statistic**
-
-t = (x̄_d − μ₀) / SE = (12.3725 − 0) / 0.2520 ≈ 49.0995
-
-**Step 6: Determine degrees of freedom**
-
-df = n − 1 = 51 − 1 = 50
-
-**Step 7: Find the p-value**
-
-For a two-tailed test with df = 50:
-p-value = 2 × P(t > 49.0995) ≈ 0.0000
-
-**Step 8: Make a decision**
-
-At α = 0.05: p-value ≈ 0.0000 < 0.05, so reject H₀.
-
-**Step 9: Conclusion**
-
-There is strong evidence at the 5% significance level that unchecking the software option changes measurement time. The mean difference is approximately 12.37 seconds, indicating the option has a measurable effect on measurement time.
-
----
-
 ## Software Approximation for the Degrees of Freedom — Step-by-Step Example
+
+**Definition:** The exact distribution of the two-sample t statistic is not a t distribution. The distribution changes as the unknown population standard deviations change. However, an excellent approximation is available.
+
+**Approximate Distribution of the Two-Sample t Statistic:**
+
+The distribution of the two-sample t statistic is close to the t distribution with degrees of freedom given by:
+
+df = ( (s₁)² / n₁ + (s₂)² / n₂ )² / ( (1 / (n₁ − 1)) × ( (s₁)² / n₁ )² + (1 / (n₂ − 1)) × ( (s₂)² / n₂ )² )
+
+This approximation is accurate when both sample sizes are 5 or larger.
+
+### Step-by-Step Example
 
 Using the directed reading activity data from the two-sample t test example:
 
@@ -487,31 +463,6 @@ The software would round this down to 39 degrees of freedom for looking up criti
 The pooled (equal variance) two-sample t test was often used before computers, because it has exactly the t distribution for degrees of freedom n₁ + n₂ − 2.
 
 However, the assumption of equal variances is difficult to check; thus, the unequal variance test is safer.
-
-**Two Normally distributed populations with unequal variances:**
-
-
-**Definition:** The exact distribution of the two-sample t statistic is not a t distribution. The distribution changes as the unknown population standard deviations change. However, an excellent approximation is available.
-
-**Approximate Distribution of the Two-Sample t Statistic:**
-
-The distribution of the two-sample t statistic is close to the t distribution with degrees of freedom given by:
-
-df = ( (s₁)² / n₁ + (s₂)² / n₂ )² / ( (1 / (n₁ − 1)) × ( (s₁)² / n₁ )² + (1 / (n₂ − 1)) × ( (s₂)² / n₂ )² )
-
-This approximation is accurate when both sample sizes are 5 or larger.
-
----
-
-## Pooled Two-Sample Procedures
-
-**Definition:** There are two versions of the two-sample t-test: one assuming equal variance (the "pooled two-sample test") and one not assuming equal variance (the "unequal" variance test we have studied) for the two populations. They have slightly different formulas and degrees of freedom.
-
-The pooled (equal variance) two-sample t test was often used before computers, because it has exactly the t distribution for degrees of freedom n₁ + n₂ − 2.
-
-However, the assumption of equal variances is difficult to check; thus, the unequal variance test is safer.
-
-**Two Normally distributed populations with unequal variances:**
 
 ---
 
