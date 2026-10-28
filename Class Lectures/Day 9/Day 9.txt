@@ -1,0 +1,163 @@
+1.) You take a random sample of 40 bags of potato chips and measure their weights. You find that the mean weight is 11.8 oz. Suppose you know that the standard deviation for the weights of all bags of potato chips is 1.4 oz.
+
+a.) Check the conditions for a Z-interval for $\mu$.
+
+Part 1a: Check conditions for a Z-interval
+1. Verify the sample is randomly selected. Yes.
+2. Check the normality condition: sample size n = 40 is greater than 30, so the Central Limit Theorem applies.
+3. Verify independence: ensure the sample of 40 is less than 10 percent of all potato chip bags.
+4. Known Sigma: sigma = 1.4.
+
+
+b.) Find a 95% confidence interval for $\mu$.
+
+Part 1b: Find a 95% confidence interval for mu
+1. Identify your values: x_bar = 11.8, sigma = 1.4, n = 40, and z* = 1.96.
+2. Calculate the standard error: 1.4 / sqrt(40) ≈ 0.2214.
+3. Calculate the margin of error: 1.96 * 0.2214 ≈ 0.4339.
+4. Compute the lower and upper bounds: 11.8 - 0.4339 = 11.37 and 11.8 + 0.4339 = 12.23.
+
+
+c.) How much bigger of a sample would you need to get a margin of error of less than 0.1?
+
+Part 1c: Sample size for a margin of error less than 0.1
+1. Set up the inequality: z* * (sigma / sqrt(n)) < 0.1.
+2. Substitute your values: 1.96 * (1.4 / sqrt(n)) < 0.1.
+3. Solve for n: sqrt(n) > (1.96 * 1.4) / 0.1 = 27.44.
+4. Square both sides: n > (27.44)^2 ≈ 752.95.
+5. Round up to the next whole number: n = 753.
+6. Find the additional sample size needed: 753 - 40 = 713 more bags.
+
+
+2.) Suppose the manufacturer of the chips in the previous problem advertises their weight as 12 oz per bag. Perform a hypothesis test with a = 0.05 to determine whether there is enough evidence to say the mean weight is lower than advertised.
+
+Question 2: Hypothesis test
+1. State the hypotheses: null hypothesis H0: mu = 12, alternative hypothesis Ha: mu < 12.
+2. Check conditions: random sample, n = 40 satisfies normality, and independent observations.
+3. Calculate the test statistic: z = (11.8 - 12) / (1.4 / sqrt(40)) ≈ -0.90.
+4. Find the p-value for a left-tailed test: Critical Value Method ≈ -1.645.
+4. Find the p-value for a left-tailed test: p-value ≈ 0.1841
+5. Make a conclusion: compare the p-value to alpha = 0.05. Since "0.1841" is greater than "0.05", fail to reject (DO NOT REJECT) the null hypothesis.
+6. There is not enough evidence to say that the mean is less than 12oz with alpha = 0.05.
+
+Outcomes of Hypothesis Tests
+When we conduct a hypothesis test, one of four things will occur.
+
+                      | H_0 False           | H_0 True
+---------------------+---------------------+---------------------
+Reject H_0           | Correct Decision    | Type I Error 
+                     |                     | (false positive)
+---------------------+---------------------+---------------------
+Fail to Reject H_0   | Type II Error       | Correct Decision
+                     | (false negative)    | 
+---------------------+---------------------+---------------------
+
+α = the probability of Type I error that we are willing to risk if we reject H_0.
+β = the probability of a type II error if we do not reject H_0.
+
+1 - β = the **power** of the test.
+
+T-Distributions
+T score formula t= (mean - mu) / (s / sqrt(n)).
+
+Degree of freedom of a single mean
+df = n-1
+
+we can determine critical values for t distribution with different degrees of freedom 
+
+Example:
+* You are investigating a university robot food delivery service by recording eight weekday lunch delivery times from Cosi
+* Sample size (n) = 8
+* Sample mean (x_bar) = 23.1 minutes
+* Sample standard deviation (s) = 14.328 minutes
+* Target: Construct a 95% confidence interval for the true mean delivery time (mu)
+
+1. Identify the Parameters and Degrees of Freedom:
+* Confidence level = 95%, meaning alpha = 0.05
+* Degrees of freedom (df) = n - 1 = 8 - 1 = 7.
+* Critical t-value (t*) for df = 7 and a 95% confidence level is 2.365.
+
+2. Calculate the Standard Error (SE):
+* Formula: SE = s / sqrt(n)
+* SE = 14.328 / sqrt(8) ≈ 5.066 minutes
+
+3. Calculate the Margin of Error (ME):
+* Formula: ME = t* * SE
+* ME = 2.365 * 5.066 ≈ 11.98 minutes.
+
+4. The Confidence Interval:
+* Lower Bound: x_bar - ME = 23.1 - 11.98 = 11.12 minutes
+* Upper Bound: x_bar + ME = 23.1 + 11.98 = 35.08 minutes
+
+We are 95% confident that the true average delivery time from Cosi to the dormitory is between 11.12 minutes and 35.08 minutes.
+
+
+Two-Sample t Procedures
+
+When data come from two random samples or two groups in a randomized experiment, the statistic x_bar_1 - x_bar_2 is our best guess for the value of mu_1 - mu_2.
+
+When the two samples are independent of each other, the standard deviation of the statistic x_bar_1 - x_bar_2 is
+
+sigma_(x_bar_1 - x_bar_2) = sqrt( (sigma_1)^2 / n_1 + (sigma_2)^2 / n_2 )
+
+Since we don't know the values of the parameters sigma_1 and sigma_2, we replace them in the standard deviation formula with the sample standard deviations. The result is the standard error of the statistic x_bar_1 - x_bar_2:
+
+sqrt( (s_1)^2 / n_1 + (s_2)^2 / n_2 )
+
+We standardize the observed difference to obtain a t statistic that tells us how far the observed difference is from its mean in standard deviation units.
+
+t = ( (x_bar_1 - x_bar_2) ) / sqrt( (s_1)^2 / n_1 + (s_2)^2 / n_2 )
+
+The two-sample t statistic has approximately a t distribution. We use technology to determine degrees of freedom OR we can use a conservative approach using the smaller of n_1 - 1 and n_2 - 1 for the degrees of freedom.
+
+Two-Sample t Procedures (1 of 4)
+
+Example: An educator believes that new directed reading activities in the classroom will help elementary school pupils improve some aspects of their reading ability. The educator arranges for a third-grade class of 21 students to take part in these activities for an 8-week period. A control classroom of 23 third-graders follows the same curriculum without the activities. At the end of the 8 weeks, all students are given a DRP test, which measures the aspects of reading ability that the treatment is designed to improve. The data follow.
+
+Treatment group:
+24  61  59  46
+43  44  52  43
+58  67  62  57
+71  49  54
+43  53  57
+49  56  33
+
+Control group:
+42  33  46  37
+43  41  10  42
+55  19  17  55
+26  54  60  28
+62  20  53  48
+37  65  42
+
+Software Approximation for the Degrees of Freedom
+
+The exact distribution of the two-sample t statistic is not a t distribution.
+The distribution changes as the unknown population standard deviations change. However, an excellent approximation is available.
+
+Approximate Distribution of the Two-Sample t Statistic
+The distribution of the two-sample t statistic is close to the t distribution with degrees of freedom given by
+
+df = ( (s_1^2 / n_1) + (s_2^2 / n_2) )^2 / ( (1 / (n_1 - 1)) * (s_1^2 / n_1)^2 + (1 / (n_2 - 1)) * (s_2^2 / n_2)^2 )
+
+This approximation is accurate when both sample sizes are 5 or larger.
+
+
+Pooled Two-Sample Procedures
+
+There are two versions of the two-sample t-test: one assuming equal variance ("pooled two-sample test") and one not assuming equal variance ("unequal" variance, as we have studied) for the two populations. They have slightly different formulas and degrees of freedom.
+
+The pooled (equal variance) two-sample t test was often used before computers, because it has exactly the t distribution for degrees of freedom n_1 + n_2 - 2.
+
+However, the assumption of equal variances is difficult to check; thus, the unequal variance test is safer.
+
+Two Normally distributed populations with unequal variances
+
+
+
+
+
+
+
+
+
