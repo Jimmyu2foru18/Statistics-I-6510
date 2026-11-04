@@ -1,163 +1,142 @@
 # Statistics I, Day 9: Z-Intervals, Z-Tests, Hypothesis Test Outcomes, T-Distributions, Matched Pairs, and Two-Sample t Procedures
 
-Welcome to Day 9! Today we work through two problems, then talk about what can go wrong in a hypothesis test, and finally switch gears to t-distributions, matched pairs, and two-sample t procedures. Let us jump right in.
+Welcome to Day 9! Day 8 introduced confidence intervals and hypothesis tests for a population mean when the population standard deviation σ is known (z-procedures). Today we finish those z-procedures, then tackle the far more common real-world situation where σ is unknown. When σ is unknown we estimate it with the sample standard deviation s, and the standardized statistic no longer follows a normal curve — it follows a t-distribution with heavier tails. We will cover t-intervals and t-tests for one mean, matched pairs, and two independent samples.
 
 ---
 
-## Part 1: The Potato Chip Problem (Z-interval for mu)
+## Part A: Z-Interval for a Population Mean (Potato Chip Problem)
 
-Here is the setup: You take a random sample of 40 bags of potato chips and weigh them. The mean weight comes out to 11.8 oz. We also happen to know the population standard deviation, which is 1.4 oz.
+Here is the setup: you take a random sample of 40 bags of potato chips and weigh them. The mean weight comes out to 11.8 oz. We happen to know the population standard deviation, σ = 1.4 oz.
 
-So we have:
-- Sample mean (x̄): 11.8 oz
-- Population standard deviation (σ): 1.4 oz
-- Sample size (n): 40
+- Sample mean: x̄ = 11.8 oz
+- Population standard deviation: σ = 1.4 oz
+- Sample size: n = 40
 
 ### 1a.) Checking the conditions for a Z-interval
 
-Before we build a confidence interval, we need to make sure the conditions are actually met. Here is what we check:
+Before building a confidence interval, verify the four conditions:
 
-**Condition 1 - Random sample:** Is our sample randomly selected? Yes, it is.
+**Condition 1 — Random sample.** The 40 bags are randomly selected. Check.
 
-**Condition 2 - Normality:** Our sample size is n = 40, which is greater than 30. That means the Central Limit Theorem applies, so the sampling distribution is approximately normal. Check.
+**Condition 2 — Normality.** n = 40 ≥ 30, so by the Central Limit Theorem the sampling distribution of x̄ is approximately normal regardless of the population shape. Check.
 
-**Condition 3 - Independence:** We need our sample of 40 bags to be less than 10 percent of all the potato chip bags out there. That is a safe assumption. Check.
+**Condition 3 — Independence.** The 40 bags are less than 10% of all potato chip bags (10n = 400 ≪ total production), so observations are independent. Check.
 
-**Condition 4 - Known sigma:** We know σ = 1.4. Check.
+**Condition 4 — Known sigma.** σ = 1.4 is given, not estimated from the data. Check.
 
-All four conditions are satisfied, so we are good to go with a Z-interval.
+All four conditions are satisfied, so we proceed with a Z-interval.
 
-### 1b.) Finding a 95% confidence interval for mu
+### 1b.) Finding a 95% confidence interval for μ
 
-Let us pull out our values:
-- x̄ = 11.8
-- σ = 1.4
-- n = 40
-- z* = 1.96 (that is the critical value for 95% confidence)
+A confidence interval has the form estimate ± margin of error:
 
-First, the standard error:
+CI = x̄ ± z* × (σ / √n)
 
+For 95% confidence, α = 0.05 and the critical value z*₍α/2₎ = 1.96 (area 0.9750 to its left).
+
+**Standard error:**
 SE = σ / √n = 1.4 / √40 ≈ 0.2214
 
-Next, the margin of error:
-
+**Margin of error:**
 E = z* × SE = 1.96 × 0.2214 ≈ 0.4339
 
-Now the bounds:
-- Lower bound: 11.8 − 0.4339 = 11.37
-- Upper bound: 11.8 + 0.4339 = 12.23
+**Bounds:**
+- Lower: 11.8 − 0.4339 = 11.37
+- Upper: 11.8 + 0.4339 = 12.23
 
-So our 95% confidence interval is (11.37, 12.23). We are 95% confident that the true mean weight of all bags of potato chips falls somewhere in that range.
+The 95% confidence interval is **(11.37, 12.23)** oz. We are 95% confident that the true mean weight of all bags of potato chips falls between 11.37 and 12.23 oz.
 
-### 1c.) Sample size for a margin of error less than 0.1
+### 1c.) Sample size for a margin of error under 0.1
 
-What if we wanted to be more precise, say a margin of error under 0.1? How many more bags would we need to weigh?
-
-Set up the inequality:
+We want E < 0.1:
 
 z* × (σ / √n) < 0.1
-
-Plug in the numbers:
-
 1.96 × (1.4 / √n) < 0.1
 
 Solve for n:
 
 √n > (1.96 × 1.4) / 0.1 = 27.44
-
-Square both sides:
-
 n > (27.44)² ≈ 752.95
 
-Round up to the next whole number: n = 753.
+Round up: **n = 753**. We already have 40 bags, so we need 753 − 40 = **713 more bags**.
 
-We already have 40 bags, so we need 753 − 40 = 713 more bags. That is a lot of chips!
+**Connection to Day 8:** E is proportional to 1/√n, so to halve the margin of error you must quadruple the sample size.
 
 ---
 
-## Part 2: Hypothesis Test — Are the Bags Underfilled?
+## Part B: Z-Test — Are the Bags Underfilled?
 
-Now, suppose the manufacturer advertises 12 oz per bag. We want to test at α = 0.05 whether there is enough evidence to say the mean weight is actually lower than advertised.
+Now the manufacturer advertises 12 oz per bag. We test at α = 0.05 whether the mean weight is actually *lower* than advertised.
 
 ### Step 1: State the hypotheses
 
 - Null hypothesis H₀: μ = 12
 - Alternative hypothesis Hₐ: μ < 12
 
-This is a left-tailed test because we are checking if the mean is less than 12.
+This is a **left-tailed** test because we check whether the mean is less than 12.
 
 ### Step 2: Check conditions
 
-Random sample? Check. n = 40 satisfies normality? Check. Independent observations? Check. We are good.
+Random sample? Check. n = 40 satisfies normality (CLT)? Check. Independence? Check. Known sigma? Check. All met.
 
 ### Step 3: Calculate the test statistic
 
-**Z-test statistic formula:**
-
 z = (x̄ − μ₀) / (σ / √n)
 
-where:
-- x̄ is the sample mean
-- μ₀ is the hypothesized population mean from H₀
-- σ is the population standard deviation
-- σ / √n is the standard error of the sample mean
-
-z = (11.8 − 12) / (1.4 / √40) ≈ −0.90
+z = (11.8 − 12) / (1.4 / √40) ≈ −0.20 / 0.2214 ≈ −0.90
 
 ### Step 4: Find the p-value
 
-**Definition:** The p-value is the probability, computed assuming H₀ is true, that the test statistic would take a value as extreme as or more extreme than the one observed.
+The p-value is the probability, computed assuming H₀ is true, of getting a test statistic at least as extreme as the one observed. For a left-tailed test, that is the area to the left of z:
 
-For a left-tailed test, we look at the area to the left of our z-score:
-
-p-value ≈ 0.1841
+p-value = P(Z < −0.90) ≈ 0.1841
 
 For reference, the critical value for a left-tailed test at α = 0.05 is −1.645.
 
 ### Step 5: Make a decision
 
-Compare the p-value to α = 0.05. Since 0.1841 is greater than 0.05, we fail to reject the null hypothesis. DO NOT REJECT H₀.
+Compare p-value to α = 0.05. Since 0.1841 > 0.05, **fail to reject H₀**.
+
+Equivalently, the test statistic −0.90 is not less than the critical value −1.645, so we do not reject.
 
 ### Step 6: Conclusion
 
-There is not enough evidence to say that the mean weight is less than 12 oz at the 0.05 significance level. In other words, we cannot conclude the bags are underfilled based on this sample.
+There is **not enough evidence** at the 0.05 significance level to conclude the mean weight is less than 12 oz. We cannot say the bags are underfilled based on this sample.
+
+**Remember:** failing to reject H₀ does not prove H₀ is true. It only means the data are not strong enough to reject it.
 
 ---
 
-## Outcomes of Hypothesis Tests
+## Part C: Outcomes of a Hypothesis Test (Type I, Type II, Power)
 
-When we run a hypothesis test, one of four things can happen. Here is the breakdown:
+When we run a test, one of four things can happen:
 
-| | H₀ is False | H₀ is True |
+| Decision | H₀ True | H₀ False |
 | :--- | :--- | :--- |
-| Reject H₀ | Correct decision | Type I error (false positive) |
-| Fail to reject H₀ | Type II error (false negative) | Correct decision |
+| Reject H₀ | Type I error (false positive) | Correct decision |
+| Fail to reject H₀ | Correct decision | Type II error (false negative) |
 
-Let us define a couple of terms:
-
-**α (alpha):** the probability of a Type I error that we are willing to risk if we reject H₀. This is our significance level.
+**α (alpha):** the probability of a Type I error we are willing to risk if we reject H₀. This is the significance level, chosen before the test.
 
 **β (beta):** the probability of a Type II error if we do not reject H₀.
 
-**1 − β:** the power of the test. Power is the probability of correctly rejecting H₀ when it is actually false, basically the test's ability to detect an effect when there really is one.
+**Power = 1 − β:** the probability of correctly rejecting H₀ when it is actually false — the test's ability to detect a real effect.
+
+Power rises when n rises, σ falls, α rises, or the true effect is farther from the null value θ₀.
 
 ---
 
-## T-Distributions
+## Part D: T-Distributions (When σ Is Unknown)
 
-So far we have been using Z-procedures, which require knowing the population standard deviation σ. But in the real world, we usually do not know σ. That is where t-distributions come in.
+Z-procedures require knowing σ. In practice σ is almost never known, so we estimate it with the sample standard deviation s. The standardized statistic
 
-**Definition:** The t-distribution is used when the population standard deviation is unknown and is estimated by the sample standard deviation s. The standardized statistic follows a t-distribution instead of the Normal curve.
+t = (x̄ − μ) / (s / √n)
 
-### The T score formula
+then follows a **t-distribution** with df = n − 1 degrees of freedom, not a normal curve.
 
-t = (mean − μ) / (s / √n)
+### Why t instead of z?
 
-where:
-- mean is the sample mean x̄
-- μ is the population mean
-- s is the sample standard deviation
-- s / √n is the standard error
+Estimating σ with s adds extra uncertainty, especially for small samples. The t-distribution has **heavier tails** than the standard normal, which produces wider intervals and more conservative tests to account for that uncertainty. As the degrees of freedom grow, the t-distribution approaches the standard normal, so for large n the two are nearly identical.
 
 ### Degrees of freedom
 
@@ -165,304 +144,182 @@ For a single mean:
 
 df = n − 1
 
-We use degrees of freedom to look up critical values from the t-distribution table. Different df values give different critical values. As df grows, the t-distribution approaches the standard Normal distribution.
+We use df to look up critical t-values (t*) from the t-table. Each df gives a different curve and different critical values.
 
 ### Example: Robot food delivery times
 
-Let us look at an example. Imagine you are investigating a university robot food delivery service. You record eight weekday lunch delivery times from Cosi.
+You record eight weekday lunch delivery times from a campus robot service:
 
-Here is what we know:
-- Sample size (n): 8
-- Sample mean (x̄): 23.1 minutes
-- Sample standard deviation (s): 14.328 minutes
-- Goal: Construct a 95% confidence interval for the true mean delivery time μ
+- n = 8
+- x̄ = 23.1 minutes
+- s = 14.328 minutes
+- Goal: 95% CI for the true mean delivery time μ
 
-#### Step 1: Identify parameters and degrees of freedom
+**Step 1 — Degrees of freedom:** df = n − 1 = 7. For df = 7 at 95% confidence, t* = 2.365.
 
-Confidence level is 95%, so α = 0.05.
-
-Degrees of freedom: df = n − 1 = 8 − 1 = 7.
-
-For df = 7 at 95% confidence, the critical t-value (t*) is 2.365.
-
-#### Step 2: Calculate the standard error
-
+**Step 2 — Standard error:**
 SE = s / √n = 14.328 / √8 ≈ 5.066 minutes
 
-#### Step 3: Calculate the margin of error
-
+**Step 3 — Margin of error:**
 ME = t* × SE = 2.365 × 5.066 ≈ 11.98 minutes
 
-#### Step 4: Build the confidence interval
+**Step 4 — Confidence interval:**
+- Lower: 23.1 − 11.98 = 11.12
+- Upper: 23.1 + 11.98 = 35.08
 
-- Lower bound: 23.1 − 11.98 = 11.12 minutes
-- Upper bound: 23.1 + 11.98 = 35.08 minutes
+The 95% CI is **(11.12, 35.08)** minutes. The interval is wide because n is small and the t-critical value (2.365) is larger than the z-critical value (1.96), reflecting the extra uncertainty from estimating σ with s.
 
-Our 95% confidence interval is (11.12, 35.08) minutes. We are 95% confident that the true average delivery time from Cosi to the dormitory is between 11.12 and 35.08 minutes.
+**Calculator commands:**
+- `tcdf(lower, upper, df)`: t-probability between two values
+- `invT(area, df)`: critical t-value with that area to its left
 
 ---
 
-## Matched Pairs t Procedures
+## Part E: Matched Pairs t Procedures
 
-**Definition:** Matched pairs t procedures are used when we have two related measurements on the same individuals, such as a before/after or with/without design. We analyze the difference between the two measurements for each individual, then apply one-sample t procedures to those differences.
+Matched pairs t procedures apply when we have two related measurements on the same individuals — a before/after or with/without design. We compute the difference for each individual, then run one-sample t procedures on those differences.
 
 ### Matched pairs conditions
 
-1. The data are paired: two measurements on the same individuals or matched individuals.
-2. The differences are approximately Normal, roughly symmetric with no outliers, or the sample size is large enough.
-3. The pairs are independent of each other.
+1. **Paired data:** two measurements on the same (or matched) individuals.
+2. **Normal differences:** the differences are approximately normal, roughly symmetric with no outliers, or n is large enough.
+3. **Independent pairs:** the pairs are independent of each other.
+
+Analyzing differences is powerful because pairing removes between-person variability, leaving only the treatment effect plus measurement noise.
 
 ### Example: MeasureMind 3D MultiSensor software
 
-The MeasureMind 3D MultiSensor metrology software is used by various companies to measure complex machine parts. GE Healthcare discovered that unchecking one software option reduced measurement time by 10%. To further investigate this, the researchers measured 51 parts using the software both with and without the option checked. The order of checking the option or not was randomized. The difference in the measurements with the option checked and unchecked was recorded.
-
-We want to perform a test at the α = 0.05 significance level of:
+Researchers measured 51 machine parts with one software option checked and unchecked, in randomized order. The difference (with − without) was recorded for each part. We test at α = 0.05:
 
 H₀: μ_d = 0
 Hₐ: μ_d ≠ 0
 
-where μ_d is the actual mean difference for the entire population of parts.
+(two-tailed; μ_d is the mean difference across all parts)
 
-The histogram of the differences is reasonably symmetric with no outliers, so we can comfortably use the t procedures.
+The differences are reasonably symmetric with no outliers, so t procedures are appropriate.
 
-### Step-by-Step Solution
+### Step-by-step solution
 
-**Step 1: State the hypotheses**
+**Step 1 — Hypotheses:** H₀: μ_d = 0, Hₐ: μ_d ≠ 0.
 
-H₀: μ_d = 0
-Hₐ: μ_d ≠ 0
+**Step 2 — Conditions:** Paired (same 51 parts twice), differences symmetric/no outliers, pairs independent. Met.
 
-This is a two-tailed test.
+**Step 3 — Sample statistics for the 51 differences:**
 
-**Step 2: Check conditions**
-
-- The data are paired (same 51 parts measured twice).
-- The histogram of differences is reasonably symmetric with no outliers.
-- The pairs are independent.
-
-Conditions are met.
-
-**Step 3: Calculate sample statistics for the differences**
-
-The 51 differences (with option minus without option) are:
 12, 8, 15, 10, 14, 9, 13, 11, 16, 12, 10, 14, 13, 9, 12, 15, 11, 13, 14, 10,
 12, 11, 15, 13, 14, 11, 12, 14, 13, 10, 11, 14, 12, 13, 15, 11, 12, 14, 13, 10,
 12, 14, 13, 11, 12, 15, 13, 12, 14, 11, 13
 
 n = 51 pairs
 
-Mean of differences:
 x̄_d = Σdᵢ / n = 631 / 51 ≈ 12.3725
 
-Standard deviation of differences:
-s_d = √(Σ(dᵢ − x̄_d)² / (n − 1)) ≈ 1.7996
+s_d = √[Σ(dᵢ − x̄_d)² / (n − 1)] ≈ 1.7996
 
-**Step 4: Calculate the standard error**
+**Step 4 — Standard error:**
+SE = s_d / √n = 1.7996 / √51 ≈ 1.7996 / 7.1414 ≈ 0.2520
 
-SE = s_d / √n = 1.7996 / √51 = 1.7996 / 7.1414 ≈ 0.2520
+**Step 5 — t test statistic:**
+t = (x̄_d − μ₀) / SE = (12.3725 − 0) / 0.2520 ≈ 49.10
 
-**Step 5: Calculate the t test statistic**
+**Step 6 — Degrees of freedom:**
+df = n − 1 = 50
 
-t = (x̄_d − μ₀) / SE = (12.3725 − 0) / 0.2520 ≈ 49.0995
+**Step 7 — p-value:** For a two-tailed test with df = 50,
+p-value = 2 × P(t > 49.10) ≈ 0 (far into the tail)
 
-**Step 6: Determine degrees of freedom**
+**Step 8 — Decision:** p-value < 0.05, so **reject H₀**.
 
-df = n − 1 = 51 − 1 = 50
+**Step 9 — Conclusion:** There is strong evidence at the 5% level that unchecking the software option changes measurement time. The mean difference is about 12.37 units, so the option has a measurable effect.
 
-**Step 7: Find the p-value**
-
-For a two-tailed test with df = 50:
-p-value = 2 × P(t > 49.0995) ≈ 0.0000
-
-**Step 8: Make a decision**
-
-At α = 0.05: p-value ≈ 0.0000 < 0.05, so reject H₀.
-
-**Step 9: Conclusion**
-
-There is strong evidence at the 5% significance level that unchecking the software option changes measurement time. The mean difference is approximately 12.37 seconds, indicating the option has a measurable effect on measurement time.
+**Concept note:** Because this is a paired design, we analyze the *differences*, not the two raw columns separately. That controls for part-to-part differences and makes the test more sensitive to the option's effect.
 
 ---
 
-## Two-Sample t Procedures
+## Part F: Two-Sample t Procedures
 
-**Definition:** When data come from two random samples or two groups in a randomized experiment, the statistic x̄₁ − x̄₂ is our best guess for the value of μ₁ − μ₂.
+When data come from two independent samples (or two randomized groups), x̄₁ − x̄₂ estimates μ₁ − μ₂. Since σ₁ and σ₂ are unknown, we estimate them with s₁ and s₂:
 
-When the two samples are independent of each other, the standard deviation of the statistic x̄₁ − x̄₂ is:
+SE = √( s₁²/n₁ + s₂²/n₂ )
 
-σ₍ₓ̄₁₋ₓ̄₂₎ = √( (σ₁)² / n₁ + (σ₂)² / n₂ )
+The two-sample t statistic:
 
-Since we do not know the values of the parameters σ₁ and σ₂, we replace them in the standard deviation formula with the sample standard deviations. The result is the standard error of the statistic x̄₁ − x̄₂:
+t = (x̄₁ − x̄₂) / √( s₁²/n₁ + s₂²/n₂ )
 
-SE = √( (s₁)² / n₁ + (s₂)² / n₂ )
+The statistic follows approximately a t-distribution. Degrees of freedom can be found with software (Welch–Satterthwaite) or conservatively as df = min(n₁ − 1, n₂ − 1).
 
-We standardize the observed difference to obtain a t statistic that tells us how far the observed difference is from its mean in standard deviation units.
-
-**Two-sample t test statistic:**
-
-t = (x̄₁ − x̄₂) / √( (s₁)² / n₁ + (s₂)² / n₂ )
-
-The two-sample t statistic has approximately a t distribution. We use technology to determine degrees of freedom, or we can use a conservative approach using the smaller of n₁ − 1 and n₂ − 1 for the degrees of freedom.
+**Concept link to Day 6:** For independent variables, variances add — Var(X − Y) = σ₁² + σ₂². The two-sample standard error is exactly the square root of that summed variance, scaled by sample size. Standard deviations do *not* add; variances do.
 
 ### Example: Directed reading activities
 
-An educator believes that new directed reading activities in the classroom will help elementary school pupils improve some aspects of their reading ability. The educator arranges for a third-grade class of 21 students to take part in these activities for an 8-week period. A control classroom of 23 third-graders follows the same curriculum without the activities. At the end of the 8 weeks, all students are given a DRP test, which measures the aspects of reading ability that the treatment is designed to improve.
+A treatment class (n₁ = 21) uses new directed reading activities for 8 weeks; a control class (n₂ = 23) does not. All students take a DRP reading test.
 
-**Treatment group (n₁ = 21):**
-24  61  59  46
-43  44  52  43
-58  67  62  57
-71  49  54
-43  53  57
-49  56  33
+**Treatment (n₁ = 21):**
+24 61 59 46
+43 44 52 43
+58 67 62 57
+71 49 54
+43 53 57
+49 56 33
 
-**Control group (n₂ = 23):**
-42  33  46  37
-43  41  10  42
-55  19  17  55
-26  54  60  28
-62  20  53  48
-37  65  42
+**Control (n₂ = 23):**
+42 33 46 37
+43 41 10 42
+55 19 17 55
+26 54 60 28
+62 20 53 48
+37 65 42
 
-### Step-by-Step Solution: Two-Sample t Test
+### Step-by-step two-sample t test
 
-**Step 1: State the hypotheses**
+**Step 1 — Hypotheses:**
+H₀: μ₁ − μ₂ = 0 (no treatment effect)
+Hₐ: μ₁ − μ₂ > 0 (treatment improves reading)
 
-H₀: μ₁ − μ₂ = 0 (the treatment has no effect on reading ability)
-Hₐ: μ₁ − μ₂ > 0 (the treatment improves reading ability)
+Right-tailed test.
 
-This is a right-tailed test.
+**Step 2 — Conditions:** Two independent random samples, reasonable sizes (21 and 23), DRP scores approximately normal within each group, samples independent. Met.
 
-**Step 2: Check conditions**
+**Step 3 — Sample statistics:**
 
-- We have two independent random samples (treatment and control classrooms).
-- Both sample sizes are reasonable (n₁ = 21, n₂ = 23).
-- We assume the DRP scores are approximately Normal within each group.
-- The two samples are independent of each other.
+Treatment: sum = 1081, x̄₁ = 1081/21 ≈ 51.4762, s₁ ≈ 11.0074
 
-Conditions are met.
+Control: sum = 935, x̄₂ = 935/23 ≈ 40.6522, s₂ ≈ 15.2453
 
-**Step 3: Calculate sample statistics**
+**Step 4 — Standard error:**
+SE = √( s₁²/n₁ + s₂²/n₂ )
+= √( 121.1629/21 + 232.4192/23 )
+= √( 5.7697 + 10.1052 )
+= √15.8749 ≈ 3.9843
 
-For the treatment group (n₁ = 21):
-Sum of scores = 1081
-x̄₁ = 1081 / 21 ≈ 51.4762
-s₁ = √(Σ(xᵢ − x̄₁)² / (n₁ − 1)) ≈ 11.0074
+**Step 5 — t test statistic:**
+t = (x̄₁ − x̄₂) / SE = (51.4762 − 40.6522) / 3.9843 = 10.8240 / 3.9843 ≈ 2.7167
 
-For the control group (n₂ = 23):
-Sum of scores = 935
-x̄₂ = 935 / 23 ≈ 40.6522
-s₂ = √(Σ(xᵢ − x̄₂)² / (n₂ − 1)) ≈ 15.2453
+**Step 6 — Degrees of freedom:**
+Conservative: df = min(20, 22) = 20
 
-**Step 4: Calculate the standard error**
+Software (Welch–Satterthwaite):
+df = (s₁²/n₁ + s₂²/n₂)² / [ (1/(n₁−1))(s₁²/n₁)² + (1/(n₂−1))(s₂²/n₂)² ]
+= (15.8749)² / [ (1/20)(5.7697)² + (1/22)(10.1052)² ]
+= 252.0134 / (1.6645 + 4.6458 )
+= 252.0134 / 6.3103 ≈ 39.94 → round down to 39
 
-SE = √( (s₁)² / n₁ + (s₂)² / n₂ )
-SE = √( (11.0074)² / 21 + (15.2453)² / 23 )
-SE = √( 121.1629 / 21 + 232.4192 / 23 )
-SE = √( 5.7697 + 10.1052 )
-SE = √15.8749
-SE ≈ 3.9843
+**Step 7 — p-value:**
+- Conservative df = 20: p-value = P(t > 2.7167) ≈ 0.0066
+- Software df ≈ 39: p-value ≈ 0.0048
 
-**Step 5: Calculate the t test statistic**
+**Step 8 — Decision:** Both p-values < 0.05, so **reject H₀** under either df choice.
 
-t = (x̄₁ − x̄₂) / SE
-t = (51.4762 − 40.6522) / 3.9843
-t = 10.8240 / 3.9843
-t ≈ 2.7167
-
-**Step 6: Determine degrees of freedom**
-
-Conservative approach: df = min(n₁ − 1, n₂ − 1) = min(20, 22) = 20
-
-Software approximation:
-df = ( (s₁)² / n₁ + (s₂)² / n₂ )² / ( (1 / (n₁ − 1)) × ( (s₁)² / n₁ )² + (1 / (n₂ − 1)) × ( (s₂)² / n₂ )² )
-
-df = ( 5.7697 + 10.1052 )² / ( (1/20) × (5.7697)² + (1/22) × (10.1052)² )
-df = (15.8749)² / ( 0.05 × 33.2894 + 0.0455 × 102.1151 )
-df = 252.0134 / ( 1.6645 + 4.6458 )
-df = 252.0134 / 6.3103
-df ≈ 39.94
-
-**Step 7: Find the p-value**
-
-Using the conservative df = 20:
-p-value = P(t > 2.7167) with df = 20
-p-value ≈ 0.0066
-
-Using software df ≈ 39.94:
-p-value ≈ 0.0048
-
-**Step 8: Make a decision**
-
-At α = 0.05:
-- Conservative approach: 0.0066 < 0.05, so reject H₀.
-- Software approach: 0.0048 < 0.05, so reject H₀.
-
-**Step 9: Conclusion**
-
-There is sufficient evidence at the 5% significance level to conclude that the directed reading activities improve reading ability. The mean DRP score for the treatment group is significantly higher than the control group.
+**Step 9 — Conclusion:** Sufficient evidence at the 5% level that directed reading activities improve reading ability. The treatment group's mean DRP score is significantly higher than the control group's.
 
 ---
 
-## Software Approximation for the Degrees of Freedom — Step-by-Step Example
+## Part G: Pooled vs. Unpooled Two-Sample t Tests
 
-**Definition:** The exact distribution of the two-sample t statistic is not a t distribution. The distribution changes as the unknown population standard deviations change. However, an excellent approximation is available.
+There are two versions:
 
-**Approximate Distribution of the Two-Sample t Statistic:**
-
-The distribution of the two-sample t statistic is close to the t distribution with degrees of freedom given by:
-
-df = ( (s₁)² / n₁ + (s₂)² / n₂ )² / ( (1 / (n₁ − 1)) × ( (s₁)² / n₁ )² + (1 / (n₂ − 1)) × ( (s₂)² / n₂ )² )
-
-This approximation is accurate when both sample sizes are 5 or larger.
-
-### Step-by-Step Example
-
-Using the directed reading activity data from the two-sample t test example:
-
-**Step 1: Calculate the components**
-
-(s₁)² / n₁ = (11.0074)² / 21 = 121.1629 / 21 ≈ 5.7697
-(s₂)² / n₂ = (15.2453)² / 23 = 232.4192 / 23 ≈ 10.1052
-
-**Step 2: Calculate the numerator**
-
-Numerator = ( (s₁)² / n₁ + (s₂)² / n₂ )²
-Numerator = ( 5.7697 + 10.1052 )²
-Numerator = (15.8749)²
-Numerator ≈ 252.0134
-
-**Step 3: Calculate the denominator**
-
-First term: (1 / (n₁ − 1)) × ( (s₁)² / n₁ )²
-= (1 / 20) × (5.7697)²
-= 0.05 × 33.2894
-≈ 1.6645
-
-Second term: (1 / (n₂ − 1)) × ( (s₂)² / n₂ )²
-= (1 / 22) × (10.1052)²
-= 0.0455 × 102.1151
-≈ 4.6458
-
-Denominator = 1.6645 + 4.6458 ≈ 6.3103
-
-**Step 4: Calculate df**
-
-df = Numerator / Denominator
-df = 252.0134 / 6.3103
-df ≈ 39.94
-
-The software would round this down to 39 degrees of freedom for looking up critical values.
-
----
-
-## Pooled Two-Sample Procedures
-
-**Definition:** There are two versions of the two-sample t-test: one assuming equal variance (the "pooled two-sample test") and one not assuming equal variance (the "unequal" variance test we have studied) for the two populations. They have slightly different formulas and degrees of freedom.
-
-The pooled (equal variance) two-sample t test was often used before computers, because it has exactly the t distribution for degrees of freedom n₁ + n₂ − 2.
-
-However, the assumption of equal variances is difficult to check; thus, the unequal variance test is safer.
+- **Unpooled (unequal variance):** does not assume σ₁ = σ₂. This is what we used above; it is safer because equal variances are hard to verify. df from Welch–Satterthwaite or the conservative min(n₁−1, n₂−1).
+- **Pooled (equal variance):** assumes σ₁ = σ₂ and pools the sample variances. It has exactly a t-distribution with df = n₁ + n₂ − 2. Common before computers, but the equal-variance assumption is difficult to check, so the unpooled test is generally preferred.
 
 ---
 
@@ -470,23 +327,114 @@ However, the assumption of equal variances is difficult to check; thus, the uneq
 
 | Quantity | Formula | What it is for |
 | :--- | :--- | :--- |
-| Standard error (σ known) | SE = σ / √n | Standard error when σ is known |
-| Margin of error (Z-interval) | E = z* × (σ / √n) | Margin of error for a Z-interval |
-| Z-interval for μ | CI = x̄ ± z* × (σ / √n) | Z-interval for μ |
-| Sample size for margin of error E | n = (z* × σ / E)² | Sample size for a desired margin of error |
+| SE (σ known) | σ / √n | Standard error when σ is known |
+| Margin of error (Z-interval) | z* × (σ / √n) | Margin of error for a Z-interval |
+| Z-interval for μ | x̄ ± z* × (σ / √n) | Z-interval for μ |
+| Sample size for margin E | n = (z* × σ / E)² | Sample size for desired margin of error |
 | Z-test statistic | z = (x̄ − μ₀) / (σ / √n) | Z-test statistic |
-| p-value (left-tailed) | P(Z < z) | Area to the left of z |
-| p-value (right-tailed) | P(Z > z) | Area to the right of z |
-| p-value (two-tailed) | 2 × P(Z > |z|) | Twice the area beyond z |
+| p-value (left-tailed) | P(Z < z) | Area left of z |
+| p-value (right-tailed) | P(Z > z) | Area right of z |
+| p-value (two-tailed) | 2 × P(Z > \|z\|) | Twice the area beyond z |
 | Power | 1 − β | Probability of correctly rejecting H₀ |
-| T score | t = (x̄ − μ) / (s / √n) | T score when σ is unknown |
-| Degrees of freedom | df = n − 1 | Degrees of freedom for a single mean |
-| Standard error (σ unknown) | SE = s / √n | Standard error using sample standard deviation |
-| T-interval for μ | CI = x̄ ± t* × (s / √n) | T-interval for μ |
-| Matched pairs t test statistic | t = (x̄_d − μ₀) / (s_d / √n) | Matched pairs t test statistic |
-| Matched pairs df | df = n − 1 | n is the number of pairs |
-| Matched pairs t-interval | CI = x̄_d ± t* × (s_d / √n) | Matched pairs t-interval |
-| Two-sample t test statistic | t = (x̄₁ − x̄₂) / √( (s₁)² / n₁ + (s₂)² / n₂ ) | Two-sample t test statistic |
-| Two-sample t df (conservative) | df = min(n₁ − 1, n₂ − 1) | Conservative degrees of freedom |
-| Two-sample t df (software) | df = ( (s₁)² / n₁ + (s₂)² / n₂ )² / ( (1 / (n₁ − 1)) × ( (s₁)² / n₁ )² + (1 / (n₂ − 1)) × ( (s₂)² / n₂ )² ) | Software approximation for degrees of freedom |
-| Two-sample t SE | SE = √( (s₁)² / n₁ + (s₂)² / n₂ ) | Standard error of difference in means |
+| T score | t = (x̄ − μ) / (s / √n) | T statistic when σ is unknown |
+| Degrees of freedom (one mean) | df = n − 1 | df for a single mean / matched pairs |
+| SE (σ unknown) | s / √n | Standard error using sample SD |
+| T-interval for μ | x̄ ± t* × (s / √n) | T-interval for μ |
+| Matched pairs t statistic | t = (x̄_d − μ₀) / (s_d / √n) | Matched pairs t test statistic |
+| Matched pairs t-interval | x̄_d ± t* × (s_d / √n) | Matched pairs t-interval |
+| Two-sample t statistic | t = (x̄₁ − x̄₂) / √( s₁²/n₁ + s₂²/n₂ ) | Two-sample t test statistic |
+| Two-sample t SE | √( s₁²/n₁ + s₂²/n₂ ) | SE of difference in means |
+| Two-sample t df (conservative) | min(n₁ − 1, n₂ − 1) | Conservative df |
+| Two-sample t df (software) | (s₁²/n₁ + s₂²/n₂)² / [ (1/(n₁−1))(s₁²/n₁)² + (1/(n₂−1))(s₂²/n₂)² ] | Welch–Satterthwaite df |
+| Pooled two-sample df | n₁ + n₂ − 2 | df when assuming equal variances |
+
+---
+
+## Practice Problems
+
+**1.** A sample of 36 batteries has mean lifetime 8.2 hours with known σ = 1.5 hours. Construct a 99% confidence interval for the mean lifetime. (z* = 2.576)
+
+<details><summary>Solution</summary>
+
+SE = 1.5 / √36 = 1.5 / 6 = 0.25. E = 2.576 × 0.25 = 0.644. CI = 8.2 ± 0.644 = (7.556, 8.844). We are 99% confident the mean lifetime is between about 7.56 and 8.84 hours.
+
+</details>
+
+**2.** A machine is supposed to fill bottles with 16 oz. σ = 0.1 known. A sample of 25 has mean 15.97 oz. Test at α = 0.05 whether the mean is less than 16.
+
+<details><summary>Solution</summary>
+
+H₀: μ = 16, Hₐ: μ < 16 (left-tailed). z = (15.97 − 16) / (0.1 / √25) = −0.03 / 0.02 = −1.50. p-value = P(Z < −1.50) ≈ 0.0668. Since 0.0668 > 0.05, fail to reject H₀. Not enough evidence the machine is underfilling.
+
+</details>
+
+**3.** Ten students take a test before and after a study session. The differences (after − before) have x̄_d = 4.2 and s_d = 3.1. Construct a 95% CI for the mean improvement. df = 9, t* = 2.262.
+
+<details><summary>Solution</summary>
+
+SE = 3.1 / √10 ≈ 0.9803. ME = 2.262 × 0.9803 ≈ 2.217. CI = 4.2 ± 2.217 = (1.983, 6.417). We are 95% confident the mean improvement is between about 1.98 and 6.42 points; since the interval excludes 0, there is evidence of improvement.
+
+</details>
+
+**4.** Two independent samples: n₁ = 15, x̄₁ = 50, s₁ = 8; n₂ = 12, x̄₂ = 44, s₂ = 10. Compute the two-sample t statistic and the conservative df.
+
+<details><summary>Solution</summary>
+
+SE = √( 8²/15 + 10²/12 ) = √( 64/15 + 100/12 ) = √( 4.2667 + 8.3333 ) = √12.6 ≈ 3.5496. t = (50 − 44) / 3.5496 = 6 / 3.5496 ≈ 1.69. Conservative df = min(14, 11) = 11.
+
+</details>
+
+**5.** Why does the t-distribution have heavier tails than the standard normal, and what happens as df grows?
+
+<details><summary>Solution</summary>
+
+Because s is used in place of the unknown σ, extra estimation uncertainty enters, especially for small samples. Heavier tails produce wider intervals and more conservative tests to compensate. As df grows, s becomes a more stable estimate of σ, and the t-distribution converges to the standard normal.
+
+</details>
+
+### Multiple Choice
+
+**6.** Which condition is required for a Z-interval for μ but NOT for a t-interval for μ?
+
+- a) Random sample
+- b) n ≥ 30 or normal population
+- c) Known population standard deviation σ
+- d) Independence (10n ≤ N)
+
+<details><summary>Solution</summary>
+
+Z-intervals require σ to be known; t-intervals estimate σ with s, so known σ is not required.
+
+**Final answer: c) Known population standard deviation σ**
+
+</details>
+
+**7.** For a matched pairs test with n = 20 pairs, the degrees of freedom are:
+
+- a) 19
+- b) 20
+- c) 39
+- d) 38
+
+<details><summary>Solution</summary>
+
+Matched pairs reduce to a one-sample t on the differences, so df = n − 1 = 19.
+
+**Final answer: a) 19**
+
+</details>
+
+**8.** Power = 1 − β increases when:
+
+- a) n decreases
+- b) σ increases
+- c) α increases
+- d) the true effect moves closer to θ₀
+
+<details><summary>Solution</summary>
+
+Power rises when n rises, σ falls, α rises, or the true effect is farther from θ₀. Among the options, only increasing α raises power.
+
+**Final answer: c) α increases**
+
+</details>
