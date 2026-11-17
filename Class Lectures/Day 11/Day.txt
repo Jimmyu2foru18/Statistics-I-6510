@@ -1,0 +1,14 @@
+Write me a definition of chi squared method
+
+what is agoodiness of fit test 
+
+give a example 
+
+how to use in TI-84
+
+compare to expected counts 
+
+each possible outcome are given by:
+E_i=mu_i = np_i for i = 1,2,3,...k
+
+
