@@ -1,6 +1,6 @@
 Write me a definition of chi squared method
 
-what is agoodiness of fit test 
+what is goodness of fit test 
 
 give a example 
 
@@ -11,4 +11,9 @@ compare to expected counts
 each possible outcome are given by:
 E_i=mu_i = np_i for i = 1,2,3,...k
 
-
+The goodness of fit test:
+1 state the hypothesis
+2 calculate the test statistic 
+3 find the critical value or p-value
+4 compare 
+5 state the conclusion
