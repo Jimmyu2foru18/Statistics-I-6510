@@ -1,0 +1,235 @@
+Statistics I, Day 12 Notes: Regression Inference — ANOVA, Sum of Squares, Confidence and Prediction Intervals
+
+Part A: Simple Linear Regression Review
+
+Population regression line:
+y = beta_0 + beta_1 x
+
+Fitted (sample) regression line:
+y-hat = b_0 + b_1 x
+
+where:
+- b_1 = slope, estimated change in mean y per one-unit increase in x
+- b_0 = y-intercept, estimated mean y when x = 0
+- x = explanatory variable, y = response variable
+
+Conditions for regression inference:
+1. Linear: relationship is roughly linear (check scatterplot and residual plot).
+2. Independent: observations are independent (random sample/randomized experiment, 10% condition).
+3. Normal: for any fixed x, y varies normally around the regression line (check histogram/NPP of residuals).
+4. Equal spread: standard deviation sigma of y around the line is the same for all x (residual plot shows no fan shape).
+5. Random: data come from a random sample or randomized experiment.
+
+Degrees of freedom for regression inference: df = n - 2.
+
+Part B: ANOVA for Regression — Sum of Squares
+
+ANOVA partitions total variation in y into variation explained by the regression line and unexplained variation (residuals).
+
+For each observation i with fitted value y-hat_i and residual e_i = y_i - y-hat_i:
+
+- SST (Total Sum of Squares) = sum of (y_i - y-bar)^2 — total variation in y about its mean.
+- SSR (Regression Sum of Squares) = sum of (y-hat_i - y-bar)^2 — variation explained by the regression line.
+- SSE (Error/Residual Sum of Squares) = sum of (y_i - y-hat_i)^2 = sum of e_i^2 — unexplained variation.
+
+ANOVA identity:
+SST = SSR + SSE
+
+Degrees of freedom:
+Regression: 1
+Error (Residual): n - 2
+Total: n - 1
+
+Mean squares:
+- MSR = SSR / 1 = SSR
+- MSE = SSE / (n - 2) = s^2, the estimated variance of the residuals
+
+Regression standard error:
+s = sqrt(MSE) = sqrt(SSE / (n - 2))
+This estimates sigma, the standard deviation of y values around the true regression line.
+
+Coefficient of determination r^2:
+r^2 = SSR / SST = 1 - SSE / SST
+r^2 is the fraction of variation in y explained by the regression on x. r = sign(b_1) * sqrt(r^2).
+
+ANOVA table for regression:
+
+Source        df     SS          MS                    F
+Regression    1      SSR         MSR = SSR/1           F = MSR/MSE
+Error         n-2    SSE         MSE = SSE/(n-2)
+Total         n-1    SST
+
+F test for a useful linear regression:
+H_0: beta_1 = 0 (no linear relationship)
+H_a: beta_1 != 0 (linear relationship; two-tailed)
+
+F = MSR / MSE
+Under H_0, F follows an F-distribution with df = (1, n - 2). Reject H_0 when F is large (p-value < alpha). For simple linear regression, this F test is equivalent to the two-tailed t test for the slope, with F = t^2.
+
+Part C: Worked Example — Regression ANOVA
+
+Random sample of n = 10 students: hours studied (x) vs. exam score (y).
+
+Summary statistics:
+- n = 10
+- y-bar = 78.2, SST = 1240
+- Regression line: y-hat = 65 + 4x
+- SSR = 930
+- SSE = 310
+
+Check: SST = SSR + SSE -> 930 + 310 = 1240 ✓
+
+ANOVA quantities:
+df regression = 1, df error = 10 - 2 = 8, df total = 9
+MSR = SSR / 1 = 930
+MSE = SSE / 8 = 310 / 8 = 38.75
+s = sqrt(38.75) ≈ 6.22
+
+r^2 = SSR / SST = 930 / 1240 = 0.75 -> 75% of the variation in exam scores is explained by hours studied.
+r = +sqrt(0.75) ≈ 0.866 (positive slope).
+
+F test:
+F = MSR / MSE = 930 / 38.75 = 24.0
+df = (1, 8). Critical F at alpha = 0.05 is about 5.32. Since 24.0 > 5.32, reject H_0.
+Strong evidence of a useful linear relationship between hours studied and exam score.
+(Equivalently, the t statistic for the slope is sqrt(24.0) ≈ 4.90.)
+
+Part D: Confidence Interval for the Mean Response
+
+A confidence interval estimates the mean response mu_y|x for ALL individuals with a given explanatory value x_0:
+
+y-hat_0 +/- t* * SE(mu-hat)
+
+where y-hat_0 = b_0 + b_1 x_0 is the predicted mean at x_0, and
+
+SE(mu-hat) = s * sqrt[ 1/n + (x_0 - x-bar)^2 / sum(x_i - x-bar)^2 ]
+
+df = n - 2, t* from the t-distribution for the desired confidence level.
+
+Bounds:
+- Lower bound: y-hat_0 - t* * SE(mu-hat)
+- Upper bound: y-hat_0 + t* * SE(mu-hat)
+
+Interpretation:
+We are C% confident the true mean response for all individuals with x = x_0 lies between the lower and upper bounds.
+
+Key property:
+The confidence interval is narrowest at x_0 = x-bar and grows wider as x_0 moves farther from x-bar (extrapolation increases uncertainty).
+
+Part E: Prediction Interval for an Individual Response
+
+A prediction interval estimates a single future response y for ONE individual with x = x_0:
+
+y-hat_0 +/- t* * SE(y-hat)
+
+where
+
+SE(y-hat) = s * sqrt[ 1 + 1/n + (x_0 - x-bar)^2 / sum(x_i - x-bar)^2 ]
+
+The extra "1 +" inside the square root accounts for the variability of an individual observation around the mean response.
+
+Bounds:
+- Lower bound: y-hat_0 - t* * SE(y-hat)
+- Upper bound: y-hat_0 + t* * SE(y-hat)
+
+Interpretation:
+We are C% confident that the response for a single future individual with x = x_0 will fall between the lower and upper bounds.
+
+CI vs. PI:
+The prediction interval is always wider than the confidence interval for the same x_0 and confidence level, because predicting an individual value includes both uncertainty about the mean line and natural scatter of individual points around the line.
+
+Part F: Worked Example — CI and PI
+
+Continue the study-hours example: n = 10, x-bar = 5 hours, sum(x_i - x-bar)^2 = 20, s = 6.22, regression y-hat = 65 + 4x.
+
+Find intervals for x_0 = 6 hours at 95% confidence. df = 8, t*_0.025,8 = 2.306.
+
+Predicted mean: y-hat_0 = 65 + 4(6) = 89.
+
+Confidence interval for the mean score at x_0 = 6:
+
+SE(mu-hat) = 6.22 * sqrt[ 1/10 + (6 - 5)^2 / 20 ]
+= 6.22 * sqrt[ 0.10 + 1/20 ]
+= 6.22 * sqrt[ 0.10 + 0.05 ]
+= 6.22 * sqrt(0.15) ≈ 6.22 * 0.3873 ≈ 2.41
+
+ME = 2.306 * 2.41 ≈ 5.56
+
+Lower bound: 89 - 5.56 = 83.44
+Upper bound: 89 + 5.56 = 94.56
+
+95% CI for the mean score of all students who study 6 hours: (83.44, 94.56).
+
+Prediction interval for one student who studies 6 hours:
+
+SE(y-hat) = 6.22 * sqrt[ 1 + 1/10 + (6 - 5)^2 / 20 ]
+= 6.22 * sqrt[ 1 + 0.10 + 0.05 ]
+= 6.22 * sqrt(1.15) ≈ 6.22 * 1.0724 ≈ 6.67
+
+ME = 2.306 * 6.67 ≈ 15.38
+
+Lower bound: 89 - 15.38 = 73.62
+Upper bound: 89 + 15.38 = 104.38
+
+95% prediction interval for one student who studies 6 hours: (73.62, 104.38).
+The prediction interval is much wider than the confidence interval, as expected.
+
+Part G: Calculator / TI-84 Steps
+
+1. Enter x in L1 and y in L2.
+2. STAT -> CALC -> LinRegTTest to get b_0, b_1, r, r^2, and the t test for the slope.
+3. For predictions at x_0:
+   - Store the regression equation: STAT -> CALC -> LinReg(a+bx) -> Y1.
+   - Compute y-hat_0 = Y1(x_0).
+4. Standard errors and intervals are easiest with software output; on the TI-84, compute SE by hand using the formulas above with s from the LinRegTTest output and sum(x_i - x-bar)^2 from 1-Var Stats on L1.
+
+Key Formulas:
+
+- Regression line: y-hat = b_0 + b_1 x
+- Total SS: SST = sum(y_i - y-bar)^2
+- Regression SS: SSR = sum(y-hat_i - y-bar)^2
+- Error SS: SSE = sum(y_i - y-hat_i)^2 = sum(e_i^2)
+- ANOVA identity: SST = SSR + SSE
+- r^2: SSR / SST = 1 - SSE/SST
+- Regression standard error: s = sqrt(SSE / (n - 2))
+- F statistic: F = MSR / MSE = SSR / [SSE/(n - 2)]
+- SE of mean response: s * sqrt[ 1/n + (x_0 - x-bar)^2 / sum(x_i - x-bar)^2 ]
+- SE of individual prediction: s * sqrt[ 1 + 1/n + (x_0 - x-bar)^2 / sum(x_i - x-bar)^2 ]
+- CI bounds (mean): y-hat_0 +/- t* * SE(mu-hat)
+- PI bounds (individual): y-hat_0 +/- t* * SE(y-hat)
+- df: n - 2
+
+Practice Problems:
+
+1. For a regression on n = 12 observations, SST = 500 and SSE = 150. Find SSR, r^2, and s.
+
+Solution: SSR = SST - SSE = 500 - 150 = 350. r^2 = 350/500 = 0.70. s = sqrt(150 / (12 - 2)) = sqrt(15) ≈ 3.87.
+
+2. A regression has n = 15, x-bar = 10, sum(x_i - x-bar)^2 = 40, s = 5, and regression line y-hat = 20 + 3x. Find the 95% CI for the mean response at x_0 = 12. df = 13, t* = 2.160.
+
+Solution: y-hat_0 = 20 + 3(12) = 56. SE(mu-hat) = 5 * sqrt[ 1/15 + (12 - 10)^2 / 40 ] = 5 * sqrt[ 0.0667 + 4/40 ] = 5 * sqrt[ 0.0667 + 0.10 ] = 5 * sqrt(0.1667) ≈ 5 * 0.4082 ≈ 2.04. ME = 2.160 * 2.04 ≈ 4.41. Lower = 56 - 4.41 = 51.59, Upper = 56 + 4.41 = 60.41. CI: (51.59, 60.41).
+
+3. Using problem 2's values, find the 95% prediction interval for one individual at x_0 = 12.
+
+Solution: SE(y-hat) = 5 * sqrt[ 1 + 1/15 + 4/40 ] = 5 * sqrt[ 1 + 0.0667 + 0.10 ] = 5 * sqrt(1.1667) ≈ 5 * 1.0801 ≈ 5.40. ME = 2.160 * 5.40 ≈ 11.66. Lower = 56 - 11.66 = 44.34, Upper = 56 + 11.66 = 67.66. PI: (44.34, 67.66) — wider than the CI, as expected.
+
+4. True or false: A prediction interval for an individual response is always wider than the confidence interval for the mean response at the same x_0 and confidence level.
+
+Solution: True. The prediction SE includes the extra "+1" for individual variability, so its margin of error is larger.
+
+5. In regression ANOVA, which sum of squares measures variation explained by the regression line?
+
+Solution: SSR (Regression Sum of Squares) = sum(y-hat_i - y-bar)^2.
+
+Multiple Choice:
+
+6. The degrees of freedom for error in a simple linear regression with n = 20 observations are:
+   a) 18   b) 19   c) 20   d) 21
+   Answer: a) 18 (df error = n - 2 = 18)
+
+7. At the same x_0 and confidence level, the margin of error for a prediction interval is:
+   a) smaller than for a confidence interval   b) equal to a confidence interval   c) larger than for a confidence interval   d) unrelated
+   Answer: c) larger than for a confidence interval
+
+8. If r^2 = 0.64 in a regression with a positive slope, what is r?
+   Answer: r = +sqrt(0.64) = 0.8 (positive because the slope is positive).
